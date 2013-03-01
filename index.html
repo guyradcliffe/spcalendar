@@ -92,10 +92,10 @@
                     $("#toggle").click(function(e){                               
                                 if (state =="IN"){
                                     $("#blackbox").css("visibility", "visible");
-                                    $("#blackbox").animate({height:330, width:284}, 900, easingOut, function(){});
+                                    $("#blackbox").animate({height:330, width:284}, 500, easingOut, function(){});
                                     state = "OUT";
                                  } else {
-                                    $("#blackbox").animate({width:0}, 900, easingIn, function() {$("#blackbox").css("visibility", "hidden");});                                 
+                                    $("#blackbox").animate({width:0}, 500, easingIn, function() {$("#blackbox").css("visibility", "hidden");});                                 
                                     state = "IN";
                                  }
                             });                                 
@@ -230,21 +230,18 @@
         
         <div data-role="page" class="type-home" id="one">
             <div data-role="content">
-                <div class="content-primary" data-theme="c">
-                    
+                <div class="content-primary" data-theme="c" data-scroll="true">                    
                     <a href="#" id="toggle" />Toggle</a>
-                        <div id="blackbox">
-                            <br>
-                            <input type="button" value="Select Unavailable AM Blocks">
-                            <input type="button" value="Select Unavailable PM Blocks">
-                            <input type="button" value="Select All Unavailable Blocks">
-                            <input type="button" value="Select All Unassigned Blocks">
-                            <input type="button" value="Clear Selections">
-                            <input type="button" id="save" value="Save Changes">
-                        </div>
-
-                        <div id="datepicker" style="z-index: 0;"></div>
-                    
+                    <div id="blackbox">
+                        <br>
+                        <input type="button" value="Select Unavailable AM Blocks">
+                        <input type="button" value="Select Unavailable PM Blocks">
+                        <input type="button" value="Select All Unavailable Blocks">
+                        <input type="button" value="Select All Unassigned Blocks">
+                        <input type="button" value="Clear Selections">
+                        <input type="button" id="save" value="Save Changes">
+                    </div>
+                    <div id="datepicker" style="z-index: 0;"></div>                   
                     <form action="#" method="get">
                         <div data-role="fieldcontain" id="divDateInput">
                             <input type="date" name="date" id="date" value="" hidden />

@@ -12,9 +12,16 @@ background: -moz-linear-gradient(top,  #f4f4f4 0%, #b2b2b2 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#b2b2b2)); /* Chrome,Safari4+ */
 background: -webkit-linear-gradient(top,  #f4f4f4 0%,#b2b2b2 100%); /* Chrome10+,Safari5.1+ */
 }
-.ui-btn-hover-c {border:1px solid #dfdfdf;}
+.ui-btn-hover-c {
+border:1px solid #dfdfdf;
+background: -moz-linear-gradient(top, #f4f4f4 0%, #b2b2b2 36%, #999999 50%, #b2b2b2 65%, #f4f4f4 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(36%,#b2b2b2), color-stop(50%,#999999), color-stop(65%,#b2b2b2), color-stop(100%,#f4f4f4)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #f4f4f4 0%,#b2b2b2 36%,#999999 50%,#b2b2b2 65%,#f4f4f4 100%); /* Chrome10+,Safari5.1+ */
+}
 .ui-btn-corner-all {
 -moz-border-radius: 5px;
 -webkit-border-radius: 5px;
 border-radius: 5px;
 }
+
+div.ui-content {min-height:700px;}
