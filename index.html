@@ -43,75 +43,64 @@
                 var easingOut = "swing";
                 var state = "";
                 
-                $(document).ready(function(){
-                    
-                                  $("#blackbox").animate(
-                                                    {width:0}, /* was height:0 */
-                                                    {duration: 10, easing:"linear"}
-                                                );
-                                  state = "IN";
+                $(document).ready(function(){                    
+                    $("#blackbox").animate(
+                      {width:0}, /* was height:0 */
+                      {duration: 10, easing:"linear"}
+                    );
+                    state = "IN";
 
                     $("#save").click(function(e){
-                                     var xml = "<DATASET>";
-                                     
-                                     for (var i=0;i<buttonClasses.length;i++){
-                                        switch(buttonClasses[i]){
-                                        case "date-button-am-scheduled":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AM\" STATE=\"S\" FACILITY_ID=\"0\" />";
-                                        break;
-                                        case "date-button-pm-scheduled":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"PM\" STATE=\"S\" FACILITY_ID=\"0\" />";
-                                        break;
-                                        case "date-button-ampm-scheduled":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"S\" FACILITY_ID=\"0\" />";
-                                        break;
-                                        case "date-button-am":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AM\" STATE=\"A\" FACILITY_ID=\"0\" />";
-                                        break;
-                                        case "date-button-pm":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"PM\" STATE=\"A\" FACILITY_ID=\"0\" />";
-                                        break;
-                                        case "date-button-ampm":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"A\" FACILITY_ID=\"0\" />";
-                                        break;
-                                        case "date-button-am-locked":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AM\" STATE=\"NS\" FACILITY_ID=\"0\" />";
-                                        break;
-                                        case "date-button-pm-locked":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"PM\" STATE=\"NS\" FACILITY_ID=\"0\" />";
-                                        break;
-                                        case "date-button-ampm-locked":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"NS\" FACILITY_ID=\"0\" />";
-                                        break;
-                                        case "date-button-clear":
-                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"N\" FACILITY_ID=\"0\" />";
-                                        break;
-                                     
-                                        }
-                                     }
-                                     
-                                     xml+="</DATASET>";
-                                     
-                                     alert(xml);
-                                     });
-                                  
+                       var xml = "<DATASET>";                     
+                       for (var i=0;i<buttonClasses.length;i++){
+                          switch(buttonClasses[i]){
+                          case "date-button-am-scheduled":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AM\" STATE=\"S\" FACILITY_ID=\"0\" />";
+                          break;
+                          case "date-button-pm-scheduled":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"PM\" STATE=\"S\" FACILITY_ID=\"0\" />";
+                          break;
+                          case "date-button-ampm-scheduled":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"S\" FACILITY_ID=\"0\" />";
+                          break;
+                          case "date-button-am":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AM\" STATE=\"A\" FACILITY_ID=\"0\" />";
+                          break;
+                          case "date-button-pm":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"PM\" STATE=\"A\" FACILITY_ID=\"0\" />";
+                          break;
+                          case "date-button-ampm":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"A\" FACILITY_ID=\"0\" />";
+                          break;
+                          case "date-button-am-locked":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AM\" STATE=\"NS\" FACILITY_ID=\"0\" />";
+                          break;
+                          case "date-button-pm-locked":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"PM\" STATE=\"NS\" FACILITY_ID=\"0\" />";
+                          break;
+                          case "date-button-ampm-locked":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"NS\" FACILITY_ID=\"0\" />";
+                          break;
+                          case "date-button-clear":
+                              xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"N\" FACILITY_ID=\"0\" />";
+                          break;                       
+                          }
+                       }                       
+                       xml+="</DATASET>";                       
+                       alert(xml);
+                       });                                
                     $("#toggle").click(function(e){                               
                                 if (state =="IN"){
-                                       $("#blackbox").css("visibility", "visible");
-                                       $("#blackbox").animate({height:330, width:284}, 500,easingOut, function(){});
-                                        state = "OUT";
+                                    $("#blackbox").css("visibility", "visible");
+                                    $("#blackbox").animate({height:330, width:284}, 900, easingOut, function(){});
+                                    state = "OUT";
                                  } else {
-                                 $("#blackbox").animate({width:0}, 500, easingIn, function() {$("#blackbox").css("visibility", "hidden");});                                 
-                                  state = "IN";
+                                    $("#blackbox").animate({width:0}, 900, easingIn, function() {$("#blackbox").css("visibility", "hidden");});                                 
+                                    state = "IN";
                                  }
-                            });
-                    
-                                  
-                    $(":button").click(function(e){
-                            
-                            
-                        });
-                        
+                            });                                 
+                    $(":button").click(function(e){                            
+                        });                      
                         GetDates();
                 });
                 
