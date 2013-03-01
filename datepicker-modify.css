@@ -1,0 +1,20 @@
+/*
+ * Modify datepicker styles
+ */
+.date-button-super {border:0; margin:0; min-width:100%;}/* make button the same width as td cell which eliminates white space on the left and right of button */
+#blackbox {
+-webkit-border-radius: 6px;
+border-radius: 6px;
+}
+div#blackbox div.ui-btn {width:270px; margin-left:7px;}
+div#blackbox div.ui-btn-up-c {
+background: -moz-linear-gradient(top,  #f4f4f4 0%, #b2b2b2 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#b2b2b2)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #f4f4f4 0%,#b2b2b2 100%); /* Chrome10+,Safari5.1+ */
+}
+.ui-btn-hover-c {border:1px solid #dfdfdf;}
+.ui-btn-corner-all {
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+}

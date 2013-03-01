@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SPCalendar</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+            
+            <link rel="stylesheet" href="./Scripts/jquery.mobile-1.2.0.min.css" />
+            <link rel="stylesheet" href="./Scripts/jqm-docs.css" />
+            <link rel="stylesheet" href="./Scripts/jquery.ui.datepicker.mobile.css" />
+            <link rel="stylesheet" href="./Scripts/datepicker-modify.css" />
+            <script src="./Scripts/jquery-1.8.2.min.js"></script>
+            <script src="./Scripts/jquery.easing.1.3.js"></script>
+            <script src="./Scripts/jquery.easing.compatibility.js"></script>
+            
+            <script>
+                //reset type=date inputs to text
+                $( document ).bind( "mobileinit", function(){
+                                   $.mobile.page.prototype.options.degradeInputs.date = true;
+                                   });
+                </script>
+            
+            <script src="./Scripts/jquery.mobile-1.2.0.min.js"></script>
+            <script src="./Scripts/jQuery.ui.datepicker.js"></script>
+            <script src="./Scripts/jquery.ui.datepicker.mobile.js"></script>
+            <script src="./Scripts/jqm-docs.js"></script><!-- used for results page -->
+            
+            <script type="text/javascript">
+                var slideStatus = "";
+            
+            /*
+                function callOutDate(){
+                    var c = $(this).attr("class");
+                    $("#dateCallOut")[0].innerHTML = "<table><tr><td>" + $(this).text() + "</td><td><table><tr><td>AM</td></tr><tr><td>PM</td></tr><table></td></tr></table>";
+                    
+                    var offset = $(this).offset();
+                    var top = offset.top - 75;
+                    var left = offset.left;
+                    
+                    $("#dateCallOut").css({ "position": "absolute", "top": top + "px", "left": left + "px","z-index" : "3000","visibility":"visible" });
+                }
+              */
+                var easingIn = "swing";
+                var easingOut = "swing";
+                var state = "";
+                
+                $(document).ready(function(){
+                    
+                                  $("#blackbox").animate(
+                                                    {height:0},
+                                                    {duration: 10, easing:"linear"}
+                                                );
+                                  state = "IN";
+
+                    $("#save").click(function(e){
+                                     var xml = "<DATASET>";
+                                     
+                                     for (var i=0;i<buttonClasses.length;i++){
+                                        switch(buttonClasses[i]){
+                                        case "date-button-am-scheduled":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AM\" STATE=\"S\" FACILITY_ID=\"0\" />";
+                                        break;
+                                        case "date-button-pm-scheduled":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"PM\" STATE=\"S\" FACILITY_ID=\"0\" />";
+                                        break;
+                                        case "date-button-ampm-scheduled":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"S\" FACILITY_ID=\"0\" />";
+                                        break;
+                                        case "date-button-am":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AM\" STATE=\"A\" FACILITY_ID=\"0\" />";
+                                        break;
+                                        case "date-button-pm":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"PM\" STATE=\"A\" FACILITY_ID=\"0\" />";
+                                        break;
+                                        case "date-button-ampm":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"A\" FACILITY_ID=\"0\" />";
+                                        break;
+                                        case "date-button-am-locked":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AM\" STATE=\"NS\" FACILITY_ID=\"0\" />";
+                                        break;
+                                        case "date-button-pm-locked":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"PM\" STATE=\"NS\" FACILITY_ID=\"0\" />";
+                                        break;
+                                        case "date-button-ampm-locked":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"NS\" FACILITY_ID=\"0\" />";
+                                        break;
+                                        case "date-button-clear":
+                                            xml+="<TABLE DAYNUM=\"" + parseInt(i+1) + "\" SESSION_BLOCK=\"AMPM\" STATE=\"N\" FACILITY_ID=\"0\" />";
+                                        break;
+                                     
+                                        }
+                                     }
+                                     
+                                     xml+="</DATASET>";
+                                     
+                                     alert(xml);
+                                     });
+                                  
+                    $("#toggle").click(function(e){
+                               
+                                if (state =="IN"){
+                                       $("#blackbox").css("visibility", "visible");
+                                       $("#blackbox").animate(
+                                            {height:330}, /* was 300 */
+                                            500,easingOut,
+                                            function(){
+                                                //
+                                            }
+                                        );
+                                        state = "OUT";
+                                 } else {
+                                 $("#blackbox").animate(
+                                      {height:0},
+                                      500, easingIn,
+                                      function() {
+                                          $("#blackbox").css("visibility", "hidden");
+                                      });
+                                  
+                                  state = "IN";
+                                 }
+                            });
+                    
+                                  
+                    $(":button").click(function(e){
+                            
+                            
+                        });
+                        
+                        GetDates();
+                });
+                
+                var baseUrl = "tsmobile.ecfmg.org/spcalendar";
+                
+                function GetDates(){
+
+                    var URL = "http://" + baseUrl + "/api/calendar?jsoncallback=?";
+                    
+                    $.ajax({
+                           url: URL
+                           , type: "GET"
+                           , dataType: "jsonp"	
+                           , success: function (data) {
+                           
+                           var Dates = data["DATASET"]["Table"];
+
+                           for (var i=0;i<Dates.length;i++){
+                                daynum = parseInt(Dates[i].DAYNUM);
+                                session = Dates[i].SESSION_BLOCK;
+                           
+                                if(session == "AM") DateSessions[daynum-1].AM = Dates[i].STATE;
+                                if(session == "PM") DateSessions[daynum-1].PM = Dates[i].STATE;
+                           }
+
+                           for (var i=0;i<DateSessions.length;i++){
+                           
+                           if(DateSessions[i].AM=="A" && DateSessions[i].PM=="A") DateSessions[i].classname="date-button-am-A-pm-A";
+                           if(DateSessions[i].AM=="A" && DateSessions[i].PM=="N") DateSessions[i].classname="date-button-am-A-pm-N";
+                           if(DateSessions[i].AM=="A" && DateSessions[i].PM=="NS") DateSessions[i].classname="date-button-am-A-pm-NS";
+                           if(DateSessions[i].AM=="A" && DateSessions[i].PM=="S") DateSessions[i].classname="date-button-am-A-pm-S";
+                           if(DateSessions[i].AM=="N" && DateSessions[i].PM=="A") DateSessions[i].classname="date-button-am-N-pm-A";
+                           if(DateSessions[i].AM=="N" && DateSessions[i].PM=="N") DateSessions[i].classname="date-button-am-N-pm-N";
+                           if(DateSessions[i].AM=="N" && DateSessions[i].PM=="NS") DateSessions[i].classname="date-button-am-N-pm-NS";
+                           if(DateSessions[i].AM=="N" && DateSessions[i].PM=="S") DateSessions[i].classname="date-button-am-N-pm-S";
+                           if(DateSessions[i].AM=="NS" && DateSessions[i].PM=="A") DateSessions[i].classname="date-button-am-NS-pm-A";
+                           if(DateSessions[i].AM=="NS" && DateSessions[i].PM=="N") DateSessions[i].classname="date-button-am-NS-pm-N";
+                           if(DateSessions[i].AM=="NS" && DateSessions[i].PM=="NS") DateSessions[i].classname="date-button-am-NS-pm-NS";
+                           if(DateSessions[i].AM=="NS" && DateSessions[i].PM=="S") DateSessions[i].classname="date-button-am-NS-pm-S";
+                           if(DateSessions[i].AM=="S" && DateSessions[i].PM=="A") DateSessions[i].classname="date-button-am-S-pm-A";
+                           if(DateSessions[i].AM=="S" && DateSessions[i].PM=="N") DateSessions[i].classname="date-button-am-S-pm-N";
+                           if(DateSessions[i].AM=="S" && DateSessions[i].PM=="NS") DateSessions[i].classname="date-button-am-S-pm-NS";
+                           if(DateSessions[i].AM=="S" && DateSessions[i].PM=="S") DateSessions[i].classname="date-button-am-S-pm-S";
+
+                           }
+                           }
+                           ,error: function () {
+                           
+                                alert('error');
+                           }
+                           });
+                    
+                    return false;
+                    
+                };
+
+                
+                document.ontouchmove = function(e) {e.preventDefault()};
+                
+                </script>
+        </head>
+    <body>
+        <script>
+            $('body').delegate('#one','pageinit',function(e){
+                               $("#dateCallOut").css({"visibility":"hidden"});
+                               $("#blackbox").css("visibility", "hidden");
+                               });
+            
+            $('body').delegate('a','touchend',function(e){
+
+                               });
+            
+            $('body').delegate('a','touchstart',function(e){
+                               /*
+                               var c = $(this).attr("class");
+                               
+                               $("#dateCallOut")[0].innerHTML = "<table><tr><td valign='top'><!--" + $(this).text() + "--></td><td><table><tr><td><a href='#' id='hAM_" + $(this).text() + "'>AM</a></td></tr><tr><td><a href='#' id='hAM_" + $(this).text() + "'>PM</a></td></tr><table></td></tr></table>";
+
+                               var offset = $(this).offset();
+                               var top = offset.top;
+                               var left = offset.left + 35;
+                               
+                               $("#dateCallOut").css({ "position": "absolute", "top": top + "px", "left": left + "px","z-index" : "3000","visibility":"visible" });
+                                */
+                });
+                               
+            
+            $('body').delegate('div','swipeleft',function(e){
+                               $("#hNext").trigger('click');
+                               e.stopImmediatePropagation();
+                               });
+            
+            $('body').delegate('div','swiperight',function(e){
+                               $("#hPrevious").trigger('click');
+                               e.stopImmediatePropagation();
+                               });
+            
+            $('body').delegate('a','click', function() {
+                               /*
+                               if (this.href == "#") {
+                               return false;
+                               }
+                                */
+                               });
+
+            
+                        
+            </script>
+        <style>
+            
+            .ui-body-c{
+                -webkit-touch-callout: none;
+            }
+            
+            #blackbox{
+               /* -webkit-font-smoothing: antialiased; only works in safari*/
+                position: absolute; z-index:3000; height: 330px; width: 285px; /* height was 300 */
+                background-color:black; 
+            }
+            
+            button{
+                width:50px;
+                font-size:10px;
+            }
+ 
+        </style>
+        
+        <div data-role="page" class="type-home" id="one">
+            <div data-role="content">
+                <div class="content-primary" data-theme="c">
+                    
+                    <a href="#" id="toggle" />Toggle</a>
+                        <div id="blackbox">
+                            <br>
+                            <input type="button" value="Select Unavailable AM Blocks">
+                            <input type="button" value="Select Unavailable PM Blocks">
+                            <input type="button" value="Select All Unavailable Blocks">
+                            <input type="button" value="Select All Unassigned Blocks">
+                            <input type="button" value="Clear Selections">
+                            <input type="button" id="save" value="Save Changes">
+                        </div>
+
+                        <div id="datepicker" style="z-index: 0;"></div>
+                    
+                    <form action="#" method="get">
+                        <div data-role="fieldcontain" id="divDateInput">
+                            <input type="date" name="date" id="date" value="" hidden />
+                        </div>
+                    </form>
+                    <div id="dateCallOut" class="bubble me" ></div>
+                </div><!-- content primary -->
+            </div><!-- /content -->
+        </div><!-- /page /class nav search -->
+    </body>
+</html>
